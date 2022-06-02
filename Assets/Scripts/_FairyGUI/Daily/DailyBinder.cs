@@ -13,6 +13,8 @@ namespace Daily
             UIObjectFactory.SetPackageItemExtension(UI_DropZone.URL, typeof(UI_DropZone));
             UIObjectFactory.SetPackageItemExtension(UI_TicTacToe.URL, typeof(UI_TicTacToe));
             UIObjectFactory.SetPackageItemExtension(UI_Tile.URL, typeof(UI_Tile));
+            UIObjectFactory.SetPackageItemExtension(UI_TileGame.URL, typeof(UI_TileGame));
+            UIObjectFactory.SetPackageItemExtension(UI_SingleTile.URL, typeof(UI_SingleTile));
             UIObjectFactory.SetPackageItemExtension(UI_SpotDifference.URL, typeof(UI_SpotDifference));
             UIObjectFactory.SetPackageItemExtension(UI_Page.URL, typeof(UI_Page));
             UIObjectFactory.SetPackageItemExtension(UI_Puzzle.URL, typeof(UI_Puzzle));

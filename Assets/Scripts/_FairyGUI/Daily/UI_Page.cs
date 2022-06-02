@@ -23,6 +23,8 @@ namespace Daily
         public GGroup m_CorrectPopup;
         public GGroup m_WrongPopup;
         public GGraph m_block;
+        public UI_TileGame m_TileGame;
+        public GGroup m_Page6;
         public Transition m_ShowPage1;
         public Transition m_ShowPage2;
         public Transition m_ShowPage3;
@@ -30,6 +32,7 @@ namespace Daily
         public Transition m_ShowPage4;
         public Transition m_MiniGameWrong;
         public Transition m_ShowPage5;
+        public Transition m_ShowPage6;
         public const string URL = "ui://16q0hed8mi8p0";
 
         public static UI_Page CreateInstance()
@@ -57,6 +60,8 @@ namespace Daily
             m_CorrectPopup = (GGroup)GetChildAt(23);
             m_WrongPopup = (GGroup)GetChildAt(26);
             m_block = (GGraph)GetChildAt(27);
+            m_TileGame = (UI_TileGame)GetChildAt(28);
+            m_Page6 = (GGroup)GetChildAt(29);
             m_ShowPage1 = GetTransitionAt(0);
             m_ShowPage2 = GetTransitionAt(1);
             m_ShowPage3 = GetTransitionAt(2);
@@ -64,6 +69,7 @@ namespace Daily
             m_ShowPage4 = GetTransitionAt(4);
             m_MiniGameWrong = GetTransitionAt(5);
             m_ShowPage5 = GetTransitionAt(6);
+            m_ShowPage6 = GetTransitionAt(7);
         }
     }
 }

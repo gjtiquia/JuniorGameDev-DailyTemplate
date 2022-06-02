@@ -20,7 +20,7 @@ namespace Daily
         {
             base.ConstructFromXML(xml);
 
-            m_state = GetControllerAt(0);
+            m_state = GetControllerAt(1);
             m_loader = (GLoader)GetChildAt(0);
         }
     }

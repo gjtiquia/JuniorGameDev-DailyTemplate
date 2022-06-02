@@ -13,6 +13,7 @@ public class DailyViewLogic : ViewLogic
     public RotationGameSubViewLogic rotationGame;
     public SpotDifferenceSubViewLogic spotDifference;
     public TicTacToeSubViewLogic ticTacToe;
+    public TileGameSubViewLogic tileGame;
 
     DailySystemLogic systemLogic;
     APIManager apiManager;
@@ -35,6 +36,7 @@ public class DailyViewLogic : ViewLogic
         rotationGame = new RotationGameSubViewLogic(uiView, this.systemLogic);
         spotDifference = new SpotDifferenceSubViewLogic(uiView, this.systemLogic);
         ticTacToe = new TicTacToeSubViewLogic(uiView, this.systemLogic);
+        tileGame = new TileGameSubViewLogic(uiView, this.systemLogic);
 
         // Subscrible event
         //tokenList.Add(messageHub.Subscribe<ContinueEvent>(OnContinueEvent));
@@ -42,11 +44,13 @@ public class DailyViewLogic : ViewLogic
         tokenList.Add(messageHub.Subscribe<SpotDifferenceAllCorrect>(spotDifference.OnSpotDifferenceAllCorrect));
         tokenList.Add(messageHub.Subscribe<RotationAllCorrect>(rotationGame.OnRotationAllCorrect));
         tokenList.Add(messageHub.Subscribe<TicTacToeGameOver>(ticTacToe.OnGameOver));
+        tokenList.Add(messageHub.Subscribe<TileGameEnd>(tileGame.OnGameEnd));
 
         // Setup mini game
         systemLogic.SetDragAndDropAllCorrectCount(dragAndDrop.SetupDraggable());
         systemLogic.SetSpotDifferenceAllCorrectCount(spotDifference.SetupSpotDifference());
         rotationGame.SetupRotationGame();
         ticTacToe.SetupGame();
+        tileGame.SetupTiles();
     }
 }

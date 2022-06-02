@@ -9,6 +9,7 @@ public class DailySystemLogic : SystemLogic
     RotationGameSubLogic rotationGame;
     SpotDifferenceSubLogic spotDifference;
     TicTacToeSubLogic ticTacToe;
+    TileGameSubLogic tileGame;
 
     public DailySystemLogic(IMessageHub hub) : base(hub)
     {
@@ -16,6 +17,7 @@ public class DailySystemLogic : SystemLogic
         rotationGame = new RotationGameSubLogic(userData, hub);
         spotDifference = new SpotDifferenceSubLogic(userData, hub);
         ticTacToe = new TicTacToeSubLogic(userData, hub);
+        tileGame = new TileGameSubLogic(userData, hub);
     }
 
     public void SetDragAndDropAllCorrectCount(int count)
@@ -43,7 +45,7 @@ public class DailySystemLogic : SystemLogic
         spotDifference.SpotDifferenceAnswerCorrect();
     }
 
-    public void SetTicTacToeTile(int row, int col, int element) 
+    public void SetTicTacToeTile(int row, int col, int element)
     {
         ticTacToe.SetTile(row, col, element);
     }
