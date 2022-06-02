@@ -7,6 +7,7 @@ https://github.com/gjtiquia/JuniorGameDev-DailyTemplateFairy
 
 Main.cs is located in /Assets/Scripts/Core/Main.cs
 
+----------------------------------------------
 
 A MVVM Model is used
 
@@ -15,4 +16,5 @@ Model: /Assets/Scripts/Daily/SystemLogics/
 View Model: /Assets/Scripts/Daily/ViewLogics/
 
 Data Classes: /Assets/Scripts/Daily/DailyData.cs
+
 Event Classes: /Assets/Scripts/Daily/DailyEvent.cs
