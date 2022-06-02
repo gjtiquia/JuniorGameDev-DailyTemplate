@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Daily/AudioData.xml -->
+  <string name="16q0hed810l3t2k-n1_10l3t" mz="n1">AUDIO</string>
+  <!-- Daily/Components/CommonTextButton.xml -->
+  <string name="16q0hed88dw9f-n3_8dw9" mz="title">Next Page</string>
+  <!-- Daily/DragAndDropInOrder/Components/DragItemInOrder.xml -->
+  <string name="16q0hed8h18s19-n4_8dw9" mz="title">test</string>
+  <!-- Daily/DragAndDropInOrder/Components/DropZoneInOrder.xml -->
+  <string name="16q0hed8h18s1a-n2_8dw9" mz="title">test</string>
+  <!-- Daily/DragAndDropInOrder/ConfirmButton.xml -->
+  <string name="16q0hed8h18s1b-n3_gr9b" mz="n3">确定</string>
+  <!-- Daily/DragAndDropInOrder/DragAndDropInOrder.xml -->
+  <string name="16q0hed8gr9b18-n0_8dw9-0" mz="DragItemList">A</string>
+  <string name="16q0hed8gr9b18-n0_8dw9-1" mz="DragItemList">B</string>
+  <string name="16q0hed8gr9b18-n0_8dw9-2" mz="DragItemList">C</string>
+  <!-- Daily/DragDropMatch/Components/MConfirm.xml -->
+  <string name="16q0hed8ryb81j-n1_ryb8" mz="n1">Confirm</string>
+  <!-- Daily/DragDropMatch/Components/MDragItem.xml -->
+  <string name="16q0hed8ryb81k-n1_ryb8" mz="n1">TEXT</string>
+  <string name="16q0hed8ryb81k-n1_ryb8-texts_def" mz="n1">TEXT</string>
+  <!-- Daily/DragDropMatch/Components/MDropZone.xml -->
+  <string name="16q0hed8ryb81l-n2_ke7u" mz="n2">RED</string>
+  <string name="16q0hed8ryb81l-n2_ke7u-texts_0" mz="n2">BLUE</string>
+  <string name="16q0hed8ryb81l-n2_ke7u-texts_def" mz="n2">RED</string>
+  <!-- Daily/DragDropMatch/DragDropMatch.xml -->
+  <string name="16q0hed8ryb81o-n9_ryb8" mz="n9">VICTORY</string>
+  <string name="16q0hed8ryb81o-n14_ryb8" mz="n14">Incorrect</string>
+  <!-- Daily/DrawLine/APoint.xml -->
+  <string name="16q0hed88dw9p-n3_8dw9" mz="title">A</string>
+  <!-- Daily/DrawLine/BPoint.xml -->
+  <string name="16q0hed88dw9o-n3_8dw9" mz="title">A</string>
+  <!-- Daily/DrawLine/DrawLine.xml -->
+  <string name="16q0hed88dw9m-n13_ndjq" mz="n13">雪橇犬</string>
+  <string name="16q0hed88dw9m-n16_ndjq" mz="n16">知更鸟</string>
+  <string name="16q0hed88dw9m-n19_ndjq" mz="n19">乌鸦</string>
+  <string name="16q0hed88dw9m-n22_ndjq" mz="n22">海豚</string>
+  <!-- Daily/FlipCard/Components/FCard.xml -->
+  <string name="16q0hed8q5f34-n4_n8ch" mz="card_text">TEXT HERE</string>
+  <string name="16q0hed8q5f34-n4_n8ch-texts_def" mz="card_text">TEXT HERE</string>
+  <!-- Daily/FlipCard/FlipCard.xml -->
+  <string name="16q0hed8q5f33-n18_qruz" mz="text_clickToStart">- Click To Start -</string>
+  <string name="16q0hed8q5f33-n17_n8ch" mz="text_victory">VICTORY</string>
+  <string name="16q0hed8q5f33-n37_ndjq" mz="title">点击开始</string>
+  <!-- Daily/Page.xml -->
+  <string name="16q0hed8mi8p0-n5_8dw9" mz="n5">測試</string>
+  <string name="16q0hed8mi8p0-n73_dmra" mz="LoadingText">測試測試測試</string>
+  <string name="16q0hed8mi8p0-n74_cf7n" mz="LibraryButton_Start">Library</string>
+  <string name="16q0hed8mi8p0-n81_kute" mz="LanguageButton">Language</string>
+  <string name="16q0hed8mi8p0-n9_8dw9" mz="n9">This is page 1</string>
+  <string name="16q0hed8mi8p0-n13_8dw9" mz="n13">動物的溝通</string>
+  <string name="16q0hed8mi8p0-n25_80an" mz="n25">This is page 4</string>
+  <string name="16q0hed8mi8p0-n43_wu2x" mz="n43">This is page 5</string>
+  <string name="16q0hed8mi8p0-n45_n32u" mz="n45">This is page 6</string>
+  <string name="16q0hed8mi8p0-n78_cf7n" mz="n78">THE END</string>
+  <string name="16q0hed8mi8p0-n79_cf7n" mz="ShareButton">Share</string>
+  <string name="16q0hed8mi8p0-n80_cf7n" mz="LibraryButton_End">Library</string>
+  <string name="16q0hed8mi8p0-n19_8dw9" mz="n19">CORRECT!</string>
+  <string name="16q0hed8mi8p0-n70_ke7u" mz="n70">WRONG!</string>
+  <!-- Daily/Rotation/RotationGame.xml -->
+  <string name="16q0hed8ox7813-n48_ndjq" mz="title">点击开始</string>
+  <string name="16q0hed8ox7813-n45_ocu0" mz="n45">Click to start!</string>
+  <!-- Daily/SpotDifference/SpotDifference.xml -->
+  <string name="16q0hed8maqg0-n28_yayy" mz="CompleteText">Completed!</string>
+</resources>
