@@ -91,6 +91,7 @@ public class TileGameSubViewLogic
                 tile.active = true;
                 tile.number = 2;
                 tile.position = ConvertCoordinates(position);
+                tile.boardPosition = position;
                 tile.m_Value.selectedIndex = (int)Value.Num2;
                 break;
             }
@@ -99,10 +100,28 @@ public class TileGameSubViewLogic
         CheckGameEnd();
     }
 
+    public void DestroyTile(UI_SingleTile tile)
+    {
+        tile.active = false;
+        tile.number = 0;
+        tile.boardPosition = new Vector2(-1, -1);
+        tile.m_Value.selectedIndex = (int)Value.Empty;
+    }
+
+    public void IncreaseTileNumber(UI_SingleTile tile)
+    {
+        tile.number *= 2;
+        var index = tile.m_Value.selectedIndex;
+        tile.m_Value.selectedIndex = index + 1;
+
+        // TODO : Enlarge animation
+    }
+
     public void MoveTileTo(UI_SingleTile tile, Vector2 destination)
     {
         Vector2 coordinate = ConvertCoordinates(destination);
         tile.TweenMove(coordinate, tweenMoveDuration);
+        tile.boardPosition = destination;
     }
 
     public void MoveRight()
@@ -117,37 +136,40 @@ public class TileGameSubViewLogic
                 if (!tileBoard.IsOccupied(position)) continue;
                 UI_SingleTile tile = GetTile(position);
 
-                // test
-                Vector2 testPosition = new Vector2(row, col + 1);
-                if (!tileBoard.IsOccupied(testPosition))
-                {
-                    MoveTileTo(tile, testPosition);
-                    tileBoard.SetNumber(position, 0);
-                    tileBoard.SetNumber(testPosition, tile.number);
-                }
-
                 // Check if have any same numbers on the right
                 if (tileBoard.HaveSameNumberOnRight(position, tile.number))
                 {
                     // Get position of the same number on the right
+                    Vector2 newPosition = tileBoard.GetSameNumberPositionOnRight(position, tile.number);
+                    UI_SingleTile overlappedTile = GetTile(newPosition);
 
                     // Move the tile to the right
+                    MoveTileTo(tile, newPosition);
 
                     // Set overlapped tile active = false
+                    DestroyTile(overlappedTile);
 
                     // Update Tile Number (maybe with enlarge animation)
+                    IncreaseTileNumber(tile);
 
-                    // Update tileBoard => position = 0, newPosition = add
+
+                    // Update tileBoard => position = 0, newPosition = updated number
+                    tileBoard.SetNumber(position, 0);
+                    tileBoard.SetNumber(newPosition, tile.number);
                 }
 
                 // Check if have any unoccupied space between
-                else if (false)
+                else if (tileBoard.HaveUnoccupiedSpaceOnRight(position))
                 {
                     // Get position of rightmost unoccupied space
+                    Vector2 newPosition = tileBoard.GetUnoccupiedPositionOnRight(position);
 
                     // Move the tile to the right
+                    MoveTileTo(tile, newPosition);
 
                     // Update tileBoard => position = 0, newPosition = tile.number
+                    tileBoard.SetNumber(position, 0);
+                    tileBoard.SetNumber(newPosition, tile.number);
                 }
 
             }
@@ -156,11 +178,10 @@ public class TileGameSubViewLogic
 
     public UI_SingleTile GetTile(Vector2 position)
     {
-        Vector3 coordinate = ConvertCoordinates(position);
         foreach (var tile in tileList)
         {
             if (!tile.active) continue;
-            if (tile.position == coordinate)
+            if (tile.boardPosition == position)
             {
                 return tile;
             }

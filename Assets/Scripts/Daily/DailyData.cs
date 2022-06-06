@@ -266,5 +266,58 @@ public class DailyTileGameData
 
             return false;
         }
+
+        public Vector2 GetSameNumberPositionOnRight(Vector2 position, int number)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkCol = col + 1; col < 4; col++)
+            {
+                if (boardArray[row][checkCol] == number)
+                {
+                    return new Vector2(row, checkCol);
+                }
+            }
+
+            return position;
+        }
+
+        public bool HaveUnoccupiedSpaceOnRight(Vector2 position)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkCol = col + 1; col < 4; col++)
+            {
+                if (boardArray[row][checkCol] == 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public Vector2 GetUnoccupiedPositionOnRight(Vector2 position)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            int tempCol = col;
+
+            for (int checkCol = col + 1; checkCol < 4; checkCol++)
+            {
+                if (boardArray[row][checkCol] == 0)
+                {
+                    if (checkCol > tempCol)
+                    {
+                        tempCol = checkCol;
+                    }
+                }
+            }
+
+            return new Vector2(row, tempCol);
+        }
     }
 }
