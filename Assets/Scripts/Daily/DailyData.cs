@@ -219,13 +219,6 @@ public class DailyTileGameData
             return true;
         }
 
-        public void SetTile(Vector2 position)
-        {
-            int row = (int)position.x;
-            int col = (int)position.y;
-            boardArray[row][col] = 2;
-        }
-
         public Vector2 SpawnTile()
         {
             int row = UnityEngine.Random.Range(0, 4);
@@ -238,8 +231,6 @@ public class DailyTileGameData
                 col = UnityEngine.Random.Range(0, 4);
                 position = new Vector2(row, col);
             }
-
-            SetTile(position);
 
             return position;
         }
@@ -256,11 +247,49 @@ public class DailyTileGameData
             int row = (int)position.x;
             int col = (int)position.y;
 
-            for (int checkCol = col + 1; col < 4; col++)
+            for (int checkCol = col + 1; checkCol < 4; checkCol++)
             {
-                if (boardArray[row][checkCol] == number)
+                int checkNumber = boardArray[row][checkCol];
+                if (checkNumber == 0)
+                {
+                    continue;
+                }
+
+                else if (checkNumber == number)
                 {
                     return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        public bool HaveSameNumberOnLeft(Vector2 position, int number)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkCol = col - 1; checkCol >= 0; checkCol--)
+            {
+                int checkNumber = boardArray[row][checkCol];
+                if (checkNumber == 0)
+                {
+                    continue;
+                }
+
+                else if (checkNumber == number)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
                 }
             }
 
@@ -272,7 +301,23 @@ public class DailyTileGameData
             int row = (int)position.x;
             int col = (int)position.y;
 
-            for (int checkCol = col + 1; col < 4; col++)
+            for (int checkCol = col + 1; checkCol < 4; checkCol++)
+            {
+                if (boardArray[row][checkCol] == number)
+                {
+                    return new Vector2(row, checkCol);
+                }
+            }
+
+            return position;
+        }
+
+        public Vector2 GetSameNumberPositionOnLeft(Vector2 position, int number)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkCol = col - 1; checkCol >= 0; checkCol--)
             {
                 if (boardArray[row][checkCol] == number)
                 {
@@ -288,7 +333,23 @@ public class DailyTileGameData
             int row = (int)position.x;
             int col = (int)position.y;
 
-            for (int checkCol = col + 1; col < 4; col++)
+            for (int checkCol = col + 1; checkCol < 4; checkCol++)
+            {
+                if (boardArray[row][checkCol] == 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool HaveUnoccupiedSpaceOnLeft(Vector2 position)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkCol = col - 1; checkCol >= 0; checkCol--)
             {
                 if (boardArray[row][checkCol] == 0)
                 {
@@ -318,6 +379,46 @@ public class DailyTileGameData
             }
 
             return new Vector2(row, tempCol);
+        }
+
+        public Vector2 GetUnoccupiedPositionOnLeft(Vector2 position)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            int tempCol = col;
+
+            for (int checkCol = col - 1; checkCol >= 0; checkCol--)
+            {
+                if (boardArray[row][checkCol] == 0)
+                {
+                    if (checkCol < tempCol)
+                    {
+                        tempCol = checkCol;
+                    }
+                }
+            }
+
+            return new Vector2(row, tempCol);
+        }
+
+        public override string ToString()
+        {
+            var output = "[";
+
+            for (int i = 0; i < 4; i++)
+            {
+                var i0 = boardArray[i][0].ToString();
+                var i1 = boardArray[i][1].ToString();
+                var i2 = boardArray[i][2].ToString();
+                var i3 = boardArray[i][3].ToString();
+                output += "[" + i0 + ", " + i1 + ", " + i2 + ", " + i3 + "]";
+                output += i < 3 ? "\n" : "";
+            }
+
+            output += "]";
+
+            return output;
         }
     }
 }

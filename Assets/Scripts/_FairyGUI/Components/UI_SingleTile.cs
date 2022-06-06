@@ -6,13 +6,19 @@ namespace Daily
 {
     public partial class UI_SingleTile : GComponent
     {
-        public bool active;
-        public int number;
-        public Vector2 boardPosition;
+        public bool _active;
+        public int _number;
+        public bool _newlyFormed;
+        public Vector2 _boardPosition;
 
         public UI_SingleTile()
         {
-            boardPosition = new Vector2(-1, -1);
+            _boardPosition = new Vector2(-1, -1);
+        }
+
+        public bool IsNewlyFormed()
+        {
+            return _newlyFormed;
         }
     }
 }

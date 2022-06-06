@@ -10,6 +10,7 @@ namespace Daily
         public Controller m_Value;
         public GLoader m_loader;
         public Transition m_Show;
+        public Transition m_Increase;
         public const string URL = "ui://16q0hed8ebwat3a";
 
         public static UI_SingleTile CreateInstance()
@@ -24,6 +25,7 @@ namespace Daily
             m_Value = GetControllerAt(0);
             m_loader = (GLoader)GetChildAt(0);
             m_Show = GetTransitionAt(0);
+            m_Increase = GetTransitionAt(1);
         }
     }
 }
