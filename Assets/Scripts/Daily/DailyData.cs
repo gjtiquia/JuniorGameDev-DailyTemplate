@@ -243,5 +243,28 @@ public class DailyTileGameData
 
             return position;
         }
+
+        public void SetNumber(Vector2 position, int number)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+            boardArray[row][col] = number;
+        }
+
+        public bool HaveSameNumberOnRight(Vector2 position, int number)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkCol = col + 1; col < 4; col++)
+            {
+                if (boardArray[row][checkCol] == number)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

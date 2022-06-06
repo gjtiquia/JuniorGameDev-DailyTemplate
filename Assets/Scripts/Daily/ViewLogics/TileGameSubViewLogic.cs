@@ -12,6 +12,7 @@ public class TileGameSubViewLogic
     List<UI_SingleTile> tileList;
     List<List<Vector2>> coordinateList;
     DailyTileGameData.TileBoard tileBoard;
+    float tweenMoveDuration = 0.1f;
 
     public TileGameSubViewLogic(UI_Page view, DailySystemLogic systemLogic)
     {
@@ -66,6 +67,7 @@ public class TileGameSubViewLogic
         else if (context.inputEvent.keyCode == KeyCode.RightArrow)
         {
             Debug.Log("Right Pressed");
+            MoveRight();
             SpawnTile();
         }
     }
@@ -77,6 +79,9 @@ public class TileGameSubViewLogic
 
     public void SpawnTile()
     {
+        // TODO : Wait till move animations have finished
+        // TODO : Spawn Animation
+
         Vector2 position = tileBoard.SpawnTile();
 
         foreach (var tile in tileList)
@@ -84,6 +89,7 @@ public class TileGameSubViewLogic
             if (!tile.active)
             {
                 tile.active = true;
+                tile.number = 2;
                 tile.position = ConvertCoordinates(position);
                 tile.m_Value.selectedIndex = (int)Value.Num2;
                 break;
@@ -95,7 +101,72 @@ public class TileGameSubViewLogic
 
     public void MoveTileTo(UI_SingleTile tile, Vector2 destination)
     {
-        // TODO
+        Vector2 coordinate = ConvertCoordinates(destination);
+        tile.TweenMove(coordinate, tweenMoveDuration);
+    }
+
+    public void MoveRight()
+    {
+        // Tiles on the rightmost column does not need to move
+        // Start checking from the second rightmost column, leftwards
+        for (int col = 2; col >= 0; col--)
+        {
+            for (int row = 0; row < 4; row++)
+            {
+                Vector2 position = new Vector2(row, col);
+                if (!tileBoard.IsOccupied(position)) continue;
+                UI_SingleTile tile = GetTile(position);
+
+                // test
+                Vector2 testPosition = new Vector2(row, col + 1);
+                if (!tileBoard.IsOccupied(testPosition))
+                {
+                    MoveTileTo(tile, testPosition);
+                    tileBoard.SetNumber(position, 0);
+                    tileBoard.SetNumber(testPosition, tile.number);
+                }
+
+                // Check if have any same numbers on the right
+                if (tileBoard.HaveSameNumberOnRight(position, tile.number))
+                {
+                    // Get position of the same number on the right
+
+                    // Move the tile to the right
+
+                    // Set overlapped tile active = false
+
+                    // Update Tile Number (maybe with enlarge animation)
+
+                    // Update tileBoard => position = 0, newPosition = add
+                }
+
+                // Check if have any unoccupied space between
+                else if (false)
+                {
+                    // Get position of rightmost unoccupied space
+
+                    // Move the tile to the right
+
+                    // Update tileBoard => position = 0, newPosition = tile.number
+                }
+
+            }
+        }
+    }
+
+    public UI_SingleTile GetTile(Vector2 position)
+    {
+        Vector3 coordinate = ConvertCoordinates(position);
+        foreach (var tile in tileList)
+        {
+            if (!tile.active) continue;
+            if (tile.position == coordinate)
+            {
+                return tile;
+            }
+        }
+
+        return null;
     }
 
     public void OnGameEnd(TileGameEnd obj)

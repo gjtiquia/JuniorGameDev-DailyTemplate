@@ -6,5 +6,6 @@ namespace Daily
     public partial class UI_SingleTile : GComponent
     {
         public bool active;
+        public int number;
     }
 }
