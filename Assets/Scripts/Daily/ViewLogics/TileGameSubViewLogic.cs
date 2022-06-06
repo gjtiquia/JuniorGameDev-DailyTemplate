@@ -6,7 +6,6 @@ using UnityEngine;
 public class TileGameSubViewLogic
 {
     enum Value { Empty, Num2, Num4, Num8, Num16, Num32, Num64, Num128, Num256 }
-    enum Direction { Up, Down, Left, Right }
     UI_Page view;
     DailySystemLogic systemLogic;
     UI_TileGame tileGame;
@@ -79,10 +78,14 @@ public class TileGameSubViewLogic
         if (context.inputEvent.keyCode == KeyCode.UpArrow)
         {
             Debug.Log("Up Pressed");
+            MoveUp();
+            Debug.Log(tileBoard);
         }
         else if (context.inputEvent.keyCode == KeyCode.DownArrow)
         {
             Debug.Log("Down Pressed");
+            MoveDown();
+            Debug.Log(tileBoard);
         }
         else if (context.inputEvent.keyCode == KeyCode.LeftArrow)
         {
@@ -135,8 +138,6 @@ public class TileGameSubViewLogic
                 var transition = tile.GetTransition("Show");
                 transition.Play();
 
-
-
                 return;
             }
         }
@@ -144,6 +145,7 @@ public class TileGameSubViewLogic
 
     public void DestroyTile(UI_SingleTile tile)
     {
+        // TODO : is there a better solution?
         tile.TweenMove(tile.position, 0.1f);
         tile._active = false;
         tile._number = 0;
@@ -169,6 +171,32 @@ public class TileGameSubViewLogic
         tile._boardPosition = destination;
     }
 
+    public bool CombineTile(Vector2 position, Vector2 newPosition, UI_SingleTile tile, UI_SingleTile targetTile)
+    {
+        tileBoard.SetNumber(position, 0);
+
+        MoveTileTo(tile, newPosition);
+        DestroyTile(targetTile);
+        IncreaseTileNumber(tile);
+
+        tileBoard.SetNumber(newPosition, tile._number);
+
+        return true;
+    }
+
+    public void EndMove(bool moved)
+    {
+        if (moved)
+        {
+            ResetNewlyFormed();
+            SpawnTile();
+        }
+        else
+        {
+            CheckGameEnd();
+        }
+    }
+
     public void MoveRight()
     {
         bool moved = false;
@@ -186,22 +214,13 @@ public class TileGameSubViewLogic
                     Vector2 newPosition = tileBoard.GetSameNumberPositionOnRight(position, tile._number);
                     UI_SingleTile targetTile = GetTile(newPosition);
 
-                    // Check if target tile was newly formed
                     if (targetTile.IsNewlyFormed())
                     {
                         moved = MoveToUnoccupiedSpaceOnRight(tile, position, moved);
                     }
                     else
                     {
-                        tileBoard.SetNumber(position, 0);
-
-                        MoveTileTo(tile, newPosition);
-                        DestroyTile(targetTile);
-                        IncreaseTileNumber(tile);
-
-                        tileBoard.SetNumber(newPosition, tile._number);
-
-                        moved = true;
+                        moved = CombineTile(position, newPosition, tile, targetTile);
                     }
                 }
 
@@ -212,40 +231,11 @@ public class TileGameSubViewLogic
             }
         }
 
-        if (moved)
-        {
-            ResetNewlyFormed();
-            SpawnTile();
-        }
-        else
-        {
-            CheckGameEnd();
-        }
+        EndMove(moved);
     }
 
     public bool MoveToUnoccupiedSpaceOnRight(UI_SingleTile tile, Vector2 position, bool moved)
     {
-        if (tileBoard.HaveUnoccupiedSpaceOnRight(position))
-        {
-            Vector2 newPosition = tileBoard.GetUnoccupiedPositionOnRight(position);
-
-            tileBoard.SetNumber(position, 0);
-            tileBoard.SetNumber(newPosition, tile._number);
-
-            MoveTileTo(tile, newPosition);
-
-            return true;
-        }
-
-        return moved;
-    }
-
-    private bool MoveToUnoccupiedSpace(Direction direction, UI_SingleTile tile, Vector2 position, bool moved)
-    {
-        // TODO
-        bool haveUnoccupiedSpace = false;
-        if (direction == Direction.Right) haveUnoccupiedSpace = tileBoard.HaveUnoccupiedSpaceOnRight(position);
-
         if (tileBoard.HaveUnoccupiedSpaceOnRight(position))
         {
             Vector2 newPosition = tileBoard.GetUnoccupiedPositionOnRight(position);
@@ -278,22 +268,13 @@ public class TileGameSubViewLogic
                     Vector2 newPosition = tileBoard.GetSameNumberPositionOnLeft(position, tile._number);
                     UI_SingleTile targetTile = GetTile(newPosition);
 
-                    // Check if target tile was newly formed
                     if (targetTile.IsNewlyFormed())
                     {
                         moved = MoveToUnoccupiedSpaceOnLeft(tile, position, moved);
                     }
                     else
                     {
-                        tileBoard.SetNumber(position, 0);
-
-                        MoveTileTo(tile, newPosition);
-                        DestroyTile(targetTile);
-                        IncreaseTileNumber(tile);
-
-                        tileBoard.SetNumber(newPosition, tile._number);
-
-                        moved = true;
+                        moved = CombineTile(position, newPosition, tile, targetTile);
                     }
                 }
 
@@ -304,15 +285,7 @@ public class TileGameSubViewLogic
             }
         }
 
-        if (moved)
-        {
-            ResetNewlyFormed();
-            SpawnTile();
-        }
-        else
-        {
-            CheckGameEnd();
-        }
+        EndMove(moved);
     }
 
     public bool MoveToUnoccupiedSpaceOnLeft(UI_SingleTile tile, Vector2 position, bool moved)
@@ -320,6 +293,115 @@ public class TileGameSubViewLogic
         if (tileBoard.HaveUnoccupiedSpaceOnLeft(position))
         {
             Vector2 newPosition = tileBoard.GetUnoccupiedPositionOnLeft(position);
+
+            tileBoard.SetNumber(position, 0);
+            tileBoard.SetNumber(newPosition, tile._number);
+
+            MoveTileTo(tile, newPosition);
+
+            return true;
+        }
+
+        return moved;
+    }
+
+    public void MoveUp()
+    {
+        bool moved = false;
+
+        for (int row = 1; row < 4; row++)
+        {
+            for (int col = 0; col < 4; col++)
+            {
+                Vector2 position = new Vector2(row, col);
+                if (!tileBoard.IsOccupied(position)) continue;
+                UI_SingleTile tile = GetTile(position);
+
+                if (tileBoard.HaveSameNumberOnUp(position, tile._number))
+                {
+                    Vector2 newPosition = tileBoard.GetSameNumberPositionOnUp(position, tile._number);
+                    UI_SingleTile targetTile = GetTile(newPosition);
+
+                    // Check if target tile was newly formed
+                    if (targetTile.IsNewlyFormed())
+                    {
+                        moved = MoveToUnoccupiedSpaceOnUp(tile, position, moved);
+                    }
+                    else
+                    {
+                        moved = CombineTile(position, newPosition, tile, targetTile);
+                    }
+                }
+
+                else
+                {
+                    moved = MoveToUnoccupiedSpaceOnUp(tile, position, moved);
+                }
+            }
+        }
+
+        EndMove(moved);
+    }
+
+    public bool MoveToUnoccupiedSpaceOnUp(UI_SingleTile tile, Vector2 position, bool moved)
+    {
+        if (tileBoard.HaveUnoccupiedSpaceOnUp(position))
+        {
+            Vector2 newPosition = tileBoard.GetUnoccupiedPositionOnUp(position);
+
+            tileBoard.SetNumber(position, 0);
+            tileBoard.SetNumber(newPosition, tile._number);
+
+            MoveTileTo(tile, newPosition);
+
+            return true;
+        }
+
+        return moved;
+    }
+
+    public void MoveDown()
+    {
+        bool moved = false;
+
+        for (int row = 2; row >= 0; row--)
+        {
+            for (int col = 0; col < 4; col++)
+            {
+                Vector2 position = new Vector2(row, col);
+                if (!tileBoard.IsOccupied(position)) continue;
+                UI_SingleTile tile = GetTile(position);
+
+                if (tileBoard.HaveSameNumberOnDown(position, tile._number))
+                {
+                    Vector2 newPosition = tileBoard.GetSameNumberPositionOnDown(position, tile._number);
+                    UI_SingleTile targetTile = GetTile(newPosition);
+
+                    if (targetTile.IsNewlyFormed())
+                    {
+                        moved = MoveToUnoccupiedSpaceOnDown(tile, position, moved);
+                    }
+                    else
+                    {
+                        moved = CombineTile(position, newPosition, tile, targetTile);
+                    }
+                }
+
+                else
+                {
+                    moved = MoveToUnoccupiedSpaceOnDown(tile, position, moved);
+                }
+            }
+        }
+
+        EndMove(moved);
+    }
+
+    public bool MoveToUnoccupiedSpaceOnDown(UI_SingleTile tile, Vector2 position, bool moved)
+    {
+        if (tileBoard.HaveUnoccupiedSpaceOnDown(position))
+        {
+            Vector2 newPosition = tileBoard.GetUnoccupiedPositionOnDown(position);
 
             tileBoard.SetNumber(position, 0);
             tileBoard.SetNumber(newPosition, tile._number);

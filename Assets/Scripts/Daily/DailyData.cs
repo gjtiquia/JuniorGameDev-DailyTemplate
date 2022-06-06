@@ -296,6 +296,60 @@ public class DailyTileGameData
             return false;
         }
 
+        public bool HaveSameNumberOnUp(Vector2 position, int number)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkRow = row - 1; checkRow >= 0; checkRow--)
+            {
+                int checkNumber = boardArray[checkRow][col];
+                if (checkNumber == 0)
+                {
+                    continue;
+                }
+
+                else if (checkNumber == number)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        public bool HaveSameNumberOnDown(Vector2 position, int number)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkRow = row + 1; checkRow < 4; checkRow++)
+            {
+                int checkNumber = boardArray[checkRow][col];
+                if (checkNumber == 0)
+                {
+                    continue;
+                }
+
+                else if (checkNumber == number)
+                {
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
         public Vector2 GetSameNumberPositionOnRight(Vector2 position, int number)
         {
             int row = (int)position.x;
@@ -328,6 +382,38 @@ public class DailyTileGameData
             return position;
         }
 
+        public Vector2 GetSameNumberPositionOnUp(Vector2 position, int number)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkRow = row - 1; checkRow >= 0; checkRow--)
+            {
+                if (boardArray[checkRow][col] == number)
+                {
+                    return new Vector2(checkRow, col);
+                }
+            }
+
+            return position;
+        }
+
+        public Vector2 GetSameNumberPositionOnDown(Vector2 position, int number)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkRow = row + 1; checkRow < 4; checkRow++)
+            {
+                if (boardArray[checkRow][col] == number)
+                {
+                    return new Vector2(checkRow, col);
+                }
+            }
+
+            return position;
+        }
+
         public bool HaveUnoccupiedSpaceOnRight(Vector2 position)
         {
             int row = (int)position.x;
@@ -352,6 +438,38 @@ public class DailyTileGameData
             for (int checkCol = col - 1; checkCol >= 0; checkCol--)
             {
                 if (boardArray[row][checkCol] == 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool HaveUnoccupiedSpaceOnUp(Vector2 position)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkRow = row - 1; checkRow >= 0; checkRow--)
+            {
+                if (boardArray[checkRow][col] == 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool HaveUnoccupiedSpaceOnDown(Vector2 position)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            for (int checkRow = row + 1; checkRow < 4; checkRow++)
+            {
+                if (boardArray[checkRow][col] == 0)
                 {
                     return true;
                 }
@@ -400,6 +518,48 @@ public class DailyTileGameData
             }
 
             return new Vector2(row, tempCol);
+        }
+
+        public Vector2 GetUnoccupiedPositionOnUp(Vector2 position)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            int tempRow = row;
+
+            for (int checkRow = row - 1; checkRow >= 0; checkRow--)
+            {
+                if (boardArray[checkRow][col] == 0)
+                {
+                    if (checkRow < tempRow)
+                    {
+                        tempRow = checkRow;
+                    }
+                }
+            }
+
+            return new Vector2(tempRow, col);
+        }
+
+        public Vector2 GetUnoccupiedPositionOnDown(Vector2 position)
+        {
+            int row = (int)position.x;
+            int col = (int)position.y;
+
+            int tempRow = row;
+
+            for (int checkRow = row + 1; checkRow < 4; checkRow++)
+            {
+                if (boardArray[checkRow][col] == 0)
+                {
+                    if (checkRow > tempRow)
+                    {
+                        tempRow = checkRow;
+                    }
+                }
+            }
+
+            return new Vector2(tempRow, col);
         }
 
         public override string ToString()
