@@ -49,4 +49,14 @@ public class DailySystemLogic : SystemLogic
     {
         ticTacToe.SetTile(row, col, element);
     }
+
+    public DailyTileGameData.TileBoard GetTileBoard()
+    {
+        return tileGame.GetTileBoard();
+    }
+
+    public bool TileGameCheckGameEnd()
+    {
+        return tileGame.CheckGameEnd();
+    }
 }

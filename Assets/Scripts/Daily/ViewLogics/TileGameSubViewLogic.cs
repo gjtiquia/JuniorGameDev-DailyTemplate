@@ -5,24 +5,24 @@ using UnityEngine;
 
 public class TileGameSubViewLogic
 {
-    enum Value { Empty, Two, Four, Eight }
+    enum Value { Empty, Num2, Num4, Num8, Num16, Num32, Num64, Num128, Num256 }
     UI_Page view;
     DailySystemLogic systemLogic;
     UI_TileGame tileGame;
     List<UI_SingleTile> tileList;
     List<List<Vector2>> coordinateList;
-    List<List<bool>> occupiedList;
+    DailyTileGameData.TileBoard tileBoard;
 
     public TileGameSubViewLogic(UI_Page view, DailySystemLogic systemLogic)
     {
         this.view = view;
         this.systemLogic = systemLogic;
+        this.tileBoard = systemLogic.GetTileBoard();
     }
 
     public void SetupTiles()
     {
         InitializeCoordinateList();
-        InitializeOccupiedList();
 
         if (view.GetChild("TileGame") == null) return;
         tileGame = view.GetChild("TileGame") as UI_TileGame;
@@ -72,52 +72,25 @@ public class TileGameSubViewLogic
 
     public bool CheckGameEnd()
     {
-        foreach (var row in occupiedList)
-        {
-            foreach (var element in row)
-            {
-                if (element == false)
-                {
-
-                    return false;
-                }
-            }
-        }
-
-        // TODO : put occupiedList in DailyData, change to actual number values --> scalability, calculate score
-        // TODO : put Check Game End in DailyData, then publish GameEnd message in the SystemLogic
-        return true;
+        return systemLogic.TileGameCheckGameEnd();
     }
 
     public void SpawnTile()
     {
-        if (CheckGameEnd()) return;
+        Vector2 position = tileBoard.SpawnTile();
 
-        int row = Random.Range(0, 4);
-        int col = Random.Range(0, 4);
-
-        while (occupiedList[row][col] == true)
-        {
-            row = Random.Range(0, 4);
-            col = Random.Range(0, 4);
-        }
-
-        occupiedList[row][col] = true;
-        SetTile(new Vector2(row, col));
-    }
-
-    public void SetTile(Vector2 position)
-    {
         foreach (var tile in tileList)
         {
             if (!tile.active)
             {
                 tile.active = true;
                 tile.position = ConvertCoordinates(position);
-                tile.m_Value.selectedIndex = (int)Value.Two;
+                tile.m_Value.selectedIndex = (int)Value.Num2;
                 break;
             }
         }
+
+        CheckGameEnd();
     }
 
     public void MoveTileTo(UI_SingleTile tile, Vector2 destination)
@@ -125,14 +98,21 @@ public class TileGameSubViewLogic
         // TODO
     }
 
-    public void UpdateOccupiedList()
-    {
-        // TODO
-    }
-
     public void OnGameEnd(TileGameEnd obj)
     {
-        // TODO : Go to finish page
+        var transition = view.GetTransition("MiniGameCorrect");
+        if (transition != null)
+        {
+            transition.Play(() =>
+            {
+                view.m_Page.selectedIndex = 4; // go to ending page (Page 4))
+            }
+            );
+        }
+        else
+        {
+            view.m_Page.selectedIndex = 4; // go to ending page (Page 4)
+        }
     }
 
     private Vector2 ConvertCoordinates(Vector2 position)
@@ -171,18 +151,6 @@ public class TileGameSubViewLogic
         row4.Add(new Vector2(385, 1125));
         row4.Add(new Vector2(540, 1125));
         coordinateList.Add(row4);
-    }
-
-    private void InitializeOccupiedList()
-    {
-        occupiedList = new List<List<bool>>();
-        for (int i = 0; i < 4; i++)
-        {
-            var row1 = new List<bool>();
-            for (int j = 0; j < 4; j++)
-                row1.Add(false);
-            occupiedList.Add(row1);
-        }
     }
 
 }
