@@ -18,3 +18,11 @@ View Model: /Assets/Scripts/Daily/ViewLogics/
 Data Classes: /Assets/Scripts/Daily/DailyData.cs
 
 Event Classes: /Assets/Scripts/Daily/DailyEvent.cs
+
+---------------------------------------------
+
+Two Demo Games were prototyped:
+
+1. Tic Tac Toe
+2. 2048 (Tile Game)
+
