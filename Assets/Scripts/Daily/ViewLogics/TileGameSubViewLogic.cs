@@ -2,6 +2,7 @@ using FairyGUI;
 using Daily;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class TileGameSubViewLogic
 {
@@ -130,13 +131,11 @@ public class TileGameSubViewLogic
 
                 tile.position = ConvertCoordinates(position);
 
-                // TODO : is there a better solution?
+                // TODO : is there a better solution? => use callbacks, be aware of what can continue running and what runs when finish
+                // tile.TweenMove(ConvertCoordinates(position), 0.1f).OnComplete(() => tile.m_Value.selectedIndex = (int)Mathf.Log(number, 2));
                 tile.TweenMove(ConvertCoordinates(position), 0.1f);
-
                 tile.m_Value.selectedIndex = (int)Mathf.Log(number, 2);
 
-                var transition = tile.GetTransition("Show");
-                transition.Play();
 
                 return;
             }
@@ -145,8 +144,10 @@ public class TileGameSubViewLogic
 
     public void DestroyTile(UI_SingleTile tile)
     {
-        // TODO : is there a better solution?
+        // TODO : is there a better solution? => use callbacks, be aware of what can continue running and what runs when finish
+        // tile.TweenMove(tile.position, 0.1f).OnComplete(() => tile.m_Value.selectedIndex = (int)Value.Empty);
         tile.TweenMove(tile.position, 0.1f);
+
         tile._active = false;
         tile._number = 0;
         tile._boardPosition = new Vector2(-1, -1);
